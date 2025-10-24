@@ -1,0 +1,9 @@
+{
+  "name": "copilotlog",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.18.3",
+  "devDependencies": {
+    "supabase": "^2.53.6"
+  }
+}

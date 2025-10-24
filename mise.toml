@@ -1,0 +1,15 @@
+[tools]
+pnpm = "latest"
+uv = "latest"
+
+[tasks.sqlfluff-lint]
+description = "Lint SQL files with SQLFluff"
+run = ["uvx sqlfluff lint"]
+
+[tasks.sqlfluff-fix]
+description = "Auto-fix SQL files with SQLFluff"
+run = ["uvx sqlfluff fix"]
+
+[tasks.sqlfluff]
+description = "Lint and then fix SQL files"
+depends = ["sqlfluff-lint", "sqlfluff-fix"]

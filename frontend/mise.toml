@@ -1,0 +1,2 @@
+[tools]
+node = "22.21.0" # React Router only needs Node for build process (SPA mode) 
