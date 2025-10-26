@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useSelectedChat } from "../../state/app-context";
+import { useApp, useSelectedChat } from "../../state/app-context";
 
 export default function ChatPreview() {
+  const { dispatch } = useApp();
   const selectedChat = useSelectedChat();
   const [copied, setCopied] = useState(false);
 
@@ -30,6 +31,10 @@ export default function ChatPreview() {
     }
   };
 
+  const handleClear = () => {
+    dispatch({ type: "SELECT_CHAT", payload: null });
+  };
+
   return (
     <div className="space-y-4 relative">
       {/* Preview */}
@@ -38,13 +43,10 @@ export default function ChatPreview() {
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
             Preview
           </h3>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-500 dark:text-slate-400">
-              {Math.round(selectedChat.html.length / 1024)}KB
-            </span>
+            <div className="flex items-center gap-1">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
               title="Copy HTML to clipboard"
             >
               {copied ? (
@@ -74,6 +76,24 @@ export default function ChatPreview() {
               )}
               Copy HTML
             </button>
+            <button
+              onClick={handleClear}
+              className="flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              title="Clear preview"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Clear
+            </button>
           </div>
         </div>
 
@@ -82,21 +102,6 @@ export default function ChatPreview() {
             className="prose prose-slate dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: selectedChat.html }}
           />
-        </div>
-      </div>
-
-      {/* Info card */}
-      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-        <div className="flex items-start gap-3">
-          <span className="text-xl">ℹ️</span>
-          <div>
-            <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-200">
-              Anonymous mode
-            </h4>
-            <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-              Your chat is saved locally in your browser. Sign in to share it with others.
-            </p>
-          </div>
         </div>
       </div>
     </div>

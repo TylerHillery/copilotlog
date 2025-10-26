@@ -63,8 +63,6 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
 
             {/* Auth button */}
             <div className="flex items-center gap-2">
-              <ThemeToggle />
-              
               {!state.user && (
                 <button className="btn-accent text-sm flex items-center gap-2">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -77,6 +75,8 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
                   Log in with GitHub
                 </button>
               )}
+              
+              <ThemeToggle />
             </div>
           </div>
         </header>
