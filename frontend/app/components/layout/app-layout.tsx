@@ -10,18 +10,20 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
   const { state, dispatch } = useApp();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-sky-50 to-blue-50 dark:from-slate-950 dark:to-slate-900">
-      {/* Sidebar */}
-      <aside
-        className={`
-          ${state.ui.sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          fixed inset-y-0 left-0 z-50 w-80 
-          card border-r border-sky-200 dark:border-slate-800
-          transition-transform duration-300 ease-in-out
-        `}
-      >
-        {sidebar}
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-linear-to-br from-sky-50 to-blue-50 dark:from-slate-950 dark:to-slate-900">
+      {/* Sidebar - only render for logged-in users */}
+      {state.user && (
+        <aside
+          className={`
+            ${state.ui.sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+            fixed inset-y-0 left-0 z-50 w-80 
+            card border-r border-sky-200 dark:border-slate-800
+            transition-transform duration-300 ease-in-out
+          `}
+        >
+          {sidebar}
+        </aside>
+      )}
 
       {/* Main content */}
       <main className="flex-1 overflow-y-auto flex flex-col">
@@ -29,8 +31,8 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
         <header className="sticky top-0 z-30">
           <div className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-3">
-              {/* Sidebar toggle - only show if user has chats or is logged in */}
-              {(state.chats.length > 0 || state.user) && (
+              {/* Sidebar toggle - only show for logged-in users */}
+              {state.user && (
                 <button
                   onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
                   className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -87,8 +89,8 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
         </div>
       </main>
 
-      {/* Mobile overlay */}
-      {state.ui.sidebarOpen && (
+      {/* Mobile overlay - only for logged-in users */}
+      {state.user && state.ui.sidebarOpen && (
         <div
           className="fixed inset-0 bg-slate-900/50 z-40"
           onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
