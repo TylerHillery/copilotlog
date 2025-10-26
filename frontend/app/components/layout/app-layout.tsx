@@ -1,5 +1,5 @@
-import { useApp } from "../../state/AppContext";
-import ThemeToggle from "./ThemeToggle";
+import { useApp } from "../../state/app-context";
+import ThemeToggle from "./theme-toggle";
 
 interface AppLayoutProps {
   children: React.ReactNode;

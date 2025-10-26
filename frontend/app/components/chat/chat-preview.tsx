@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelectedChat } from "../../state/AppContext";
+import { useSelectedChat } from "../../state/app-context";
 
 export default function ChatPreview() {
   const selectedChat = useSelectedChat();

@@ -1,4 +1,4 @@
-import { useApp, useFilteredChats } from "../../state/AppContext";
+import { useApp, useFilteredChats } from "../../state/app-context";
 
 export default function Sidebar() {
   const { state, dispatch } = useApp();

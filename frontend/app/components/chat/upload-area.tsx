@@ -1,6 +1,6 @@
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
-import { useApp } from "../../state/AppContext";
-import type { Chat } from "../../state/AppContext";
+import { useApp } from "../../state/app-context";
+import type { Chat } from "../../state/app-context";
 
 export default function UploadArea() {
   const { dispatch } = useApp();

@@ -11,7 +11,7 @@ import {
 
 import type { Route } from "./+types/root";
 import LoadingScreen from "./components/loading-screen";
-import { AppProvider } from "./state/AppContext";
+import { AppProvider } from "./state/app-context";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
