@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { useApp, useSelectedChat } from "../../state/app-context";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent,CardHeader, CardTitle } from "@/components/ui/card";
+
+import { useApp, useSelectedChat } from "../../state/app-context";
 
 export default function ChatPreview() {
   const { dispatch } = useApp();

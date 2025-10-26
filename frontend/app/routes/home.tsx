@@ -1,7 +1,7 @@
+import ChatPreview from "../components/chat/chat-preview";
+import UploadArea from "../components/chat/upload-area";
 import AppLayout from "../components/layout/app-layout";
 import Sidebar from "../components/layout/sidebar";
-import UploadArea from "../components/chat/upload-area";
-import ChatPreview from "../components/chat/chat-preview";
 import { useSelectedChat } from "../state/app-context";
 
 export function meta() {

@@ -1,8 +1,9 @@
-import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
-import { useApp } from "../../state/app-context";
-import type { Chat } from "../../state/app-context";
+import { type ChangeEvent,type DragEvent, useRef, useState } from "react";
+
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
+import type { Chat } from "../../state/app-context";
+import { useApp } from "../../state/app-context";
 
 export default function UploadArea() {
   const { dispatch } = useApp();
@@ -62,15 +63,17 @@ export default function UploadArea() {
     setIsDragging(false);
 
     const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) {
-      await handleFile(files[0]);
+    const file = files[0];
+    if (file) {
+      await handleFile(file);
     }
   };
 
   const handleFileInput = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files && files.length > 0) {
-      await handleFile(files[0]);
+    const file = files?.[0];
+    if (file) {
+      await handleFile(file);
     }
   };
 
@@ -91,7 +94,7 @@ export default function UploadArea() {
 
         dispatch({ type: "ADD_CHAT", payload: chat });
         setError(null);
-      } catch (err) {
+      } catch {
         setError("Invalid JSON in clipboard");
       }
     }

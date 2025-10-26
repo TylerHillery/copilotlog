@@ -1,7 +1,8 @@
-import { useApp, useFilteredChats } from "../../state/app-context";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+
+import { useApp, useFilteredChats } from "../../state/app-context";
 
 export default function Sidebar() {
   const { state, dispatch } = useApp();
