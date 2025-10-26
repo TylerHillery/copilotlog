@@ -1,3 +1,3 @@
 # CopilotLog
 
-A basic app to create shareable links for VS Code Copilot Chats.
+Easily create shareable links for VS Code Copilot Chats.

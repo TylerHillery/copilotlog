@@ -11,6 +11,7 @@ import {
 
 import type { Route } from "./+types/root";
 import LoadingScreen from "./components/loading-screen";
+import { AppProvider } from "./state/AppContext";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,6 +21,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('copilotlog_theme') || 'light';
+                  console.log('Initial theme from localStorage:', theme);
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                  // Ensure theme is stored
+                  if (!localStorage.getItem('copilotlog_theme')) {
+                    localStorage.setItem('copilotlog_theme', 'light');
+                  }
+                } catch (e) {
+                  console.error('Theme initialization error:', e);
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -35,7 +59,11 @@ export function HydrateFallback() {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <AppProvider>
+      <Outlet />
+    </AppProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

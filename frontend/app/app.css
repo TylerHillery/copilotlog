@@ -1,15 +1,75 @@
 @import "tailwindcss";
 
+@variant dark (.dark &);
+
 @theme {
   --font-sans: ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  
+  /* Aviation/Pilot Theme Colors */
+  /* Clear Skies (Light Mode) */
+  --color-sky-light: oklch(0.97 0.01 220);
+  --color-cloud: oklch(0.99 0.005 220);
+  --color-aviation-blue: oklch(0.45 0.15 230);
+  --color-sunset: oklch(0.65 0.15 45);
+  --color-navy: oklch(0.25 0.05 230);
+  
+  /* Night Flight (Dark Mode) */
+  --color-midnight: oklch(0.15 0.02 240);
+  --color-night-cloud: oklch(0.2 0.02 240);
+  --color-sky-bright: oklch(0.7 0.12 220);
+  --color-golden-glow: oklch(0.75 0.12 60);
+  
+  /* Custom shadows for cloud effect */
+  --shadow-cloud: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-cloud-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-cloud-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-gradient-to-br from-sky-50 to-blue-50 dark:from-slate-950 dark:to-slate-900;
+  @apply text-slate-900 dark:text-slate-50;
+  @apply min-h-screen;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+/* Cloud-styled cards */
+.card {
+  @apply bg-white dark:bg-slate-900;
+  @apply rounded-xl;
+  @apply shadow-lg shadow-sky-200/50 dark:shadow-slate-950/50;
+  @apply border border-sky-100 dark:border-slate-800;
+}
+
+/* Primary button with aviation theme */
+.btn-primary {
+  @apply bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400;
+  @apply text-white;
+  @apply px-4 py-2 rounded-lg;
+  @apply font-medium;
+  @apply transition-all duration-200;
+  @apply shadow-md hover:shadow-lg;
+}
+
+/* Secondary button */
+.btn-secondary {
+  @apply bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600;
+  @apply text-slate-900 dark:text-slate-50;
+  @apply px-4 py-2 rounded-lg;
+  @apply font-medium;
+  @apply transition-all duration-200;
+}
+
+/* Accent button (sunset/golden) */
+.btn-accent {
+  @apply bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600;
+  @apply text-slate-900 dark:text-slate-100;
+  @apply px-4 py-2 rounded-lg;
+  @apply font-medium;
+  @apply transition-all duration-200;
+  @apply shadow-md hover:shadow-lg;
 }
