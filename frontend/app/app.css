@@ -1,75 +1,168 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
 @variant dark (.dark &);
 
 @theme {
   --font-sans: ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  
-  /* Aviation/Pilot Theme Colors */
-  /* Clear Skies (Light Mode) */
-  --color-sky-light: oklch(0.97 0.01 220);
-  --color-cloud: oklch(0.99 0.005 220);
-  --color-aviation-blue: oklch(0.45 0.15 230);
-  --color-sunset: oklch(0.65 0.15 45);
-  --color-navy: oklch(0.25 0.05 230);
-  
-  /* Night Flight (Dark Mode) */
-  --color-midnight: oklch(0.15 0.02 240);
-  --color-night-cloud: oklch(0.2 0.02 240);
-  --color-sky-bright: oklch(0.7 0.12 220);
-  --color-golden-glow: oklch(0.75 0.12 60);
-  
-  /* Custom shadows for cloud effect */
-  --shadow-cloud: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-cloud-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-  --shadow-cloud-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
 }
 
-html,
-body {
-  @apply bg-gradient-to-br from-sky-50 to-blue-50 dark:from-slate-950 dark:to-slate-900;
-  @apply text-slate-900 dark:text-slate-50;
-  @apply min-h-screen;
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+:root {
+  --radius: 0.5rem;
+  
+  /* BRIGHT BLUE SKY - Light Mode */
+  /* Clean, airy palette inspired by a clear sunny day */
+  --background: #fafbfc; /* bright white-blue sky */
+  --foreground: #0f172a; /* deep charcoal for crisp text */
+  
+  --card: #ffffff; /* pure white cards floating like clouds */
+  --card-foreground: #0f172a;
+  
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  
+  --primary: #2563eb; /* vibrant sky blue */
+  --primary-foreground: #ffffff;
+  
+  --secondary: #f1f5f9; /* soft light grey */
+  --secondary-foreground: #0f172a;
+  
+  --muted: #f8fafc; /* subtle off-white */
+  --muted-foreground: #64748b; /* medium slate grey */
+  
+  --accent: #dbeafe; /* light sky accent */
+  --accent-foreground: #1e40af;
+  
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  
+  --border: #e2e8f0; /* soft silver border */
+  --input: #f1f5f9;
+  --ring: #3b82f6; /* bright blue focus ring */
+  
+  --chart-1: #3b82f6;
+  --chart-2: #60a5fa;
+  --chart-3: #93c5fd;
+  --chart-4: #bfdbfe;
+  --chart-5: #dbeafe;
+  
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f8fafc;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #3b82f6;
+}
+
+.dark {
+  /* DARK NIGHT - Dark Mode */
+  /* Deep, sophisticated palette inspired by a starry night */
+  --background: #0a0e1a; /* deep midnight blue-black */
+  --foreground: #f1f5f9; /* soft white for easy reading */
+  
+  --card: #141824; /* elevated dark surface */
+  --card-foreground: #f1f5f9;
+  
+  --popover: #141824;
+  --popover-foreground: #f1f5f9;
+  
+  --primary: #60a5fa; /* brighter blue for dark backgrounds */
+  --primary-foreground: #0f172a;
+  
+  --secondary: #1e293b; /* dark slate */
+  --secondary-foreground: #f1f5f9;
+  
+  --muted: #1e293b; /* muted dark slate */
+  --muted-foreground: #94a3b8; /* light slate grey */
+  
+  --accent: #1e3a5f; /* subtle deep blue accent */
+  --accent-foreground: #f1f5f9;
+  
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  
+  --border: #1e293b; /* subtle dark border */
+  --input: #1e293b;
+  --ring: #60a5fa; /* bright blue focus ring */
+  
+  --chart-1: #60a5fa;
+  --chart-2: #3b82f6;
+  --chart-3: #2563eb;
+  --chart-4: #1e40af;
+  --chart-5: #1e3a8a;
+  
+  --sidebar: #0f1419; /* slightly darker than background */
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #60a5fa;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #60a5fa;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
-}
-
-/* Cloud-styled cards */
-.card {
-  @apply bg-white dark:bg-slate-900;
-  @apply rounded-xl;
-  @apply shadow-lg shadow-sky-200/50 dark:shadow-slate-950/50;
-  @apply border border-sky-100 dark:border-slate-800;
-}
-
-/* Primary button with aviation theme */
-.btn-primary {
-  @apply bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400;
-  @apply text-white;
-  @apply px-4 py-2 rounded-lg;
-  @apply font-medium;
-  @apply transition-all duration-200;
-  @apply shadow-md hover:shadow-lg;
-}
-
-/* Secondary button */
-.btn-secondary {
-  @apply bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600;
-  @apply text-slate-900 dark:text-slate-50;
-  @apply px-4 py-2 rounded-lg;
-  @apply font-medium;
-  @apply transition-all duration-200;
-}
-
-/* Accent button (sunset/golden) */
-.btn-accent {
-  @apply bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600;
-  @apply text-slate-900 dark:text-slate-100;
-  @apply px-4 py-2 rounded-lg;
-  @apply font-medium;
-  @apply transition-all duration-200;
-  @apply shadow-md hover:shadow-lg;
+  
+  body {
+    @apply bg-background text-foreground;
+    @apply antialiased;
+  }
+  
+  /* Smooth transitions for theme switching */
+  html {
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Better focus visibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }

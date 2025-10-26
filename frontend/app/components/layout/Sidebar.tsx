@@ -1,4 +1,7 @@
 import { useApp, useFilteredChats } from "../../state/app-context";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 export default function Sidebar() {
   const { state, dispatch } = useApp();
@@ -7,14 +10,24 @@ export default function Sidebar() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="p-6 border-b border-sky-200 dark:border-slate-800">
+      <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="text-3xl">✈️</div>
+          <svg 
+            className="w-8 h-8 text-sidebar-primary" 
+            fill="none" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth="2" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
           <div>
-            <h1 className="text-xl font-bold text-sky-900 dark:text-sky-100">
+            <h1 className="text-xl font-semibold text-sidebar-foreground">
               CopilotLog
             </h1>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Clear Skies Ahead
             </p>
           </div>
@@ -23,11 +36,11 @@ export default function Sidebar() {
 
       {/* Chat list */}
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xs font-semibold text-sidebar-foreground uppercase tracking-wider">
             Your Chats
           </h2>
-          <span className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
             {filteredChats.length}
           </span>
         </div>
@@ -35,76 +48,62 @@ export default function Sidebar() {
         {/* Filter buttons */}
         <div className="flex gap-2 mb-4">
           {(["all", "shared", "unshared"] as const).map((filter) => (
-            <button
+            <Button
               key={filter}
               onClick={() => dispatch({ type: "SET_FILTER", payload: filter })}
-              className={`
-                px-3 py-1 text-xs font-medium rounded-md transition-colors
-                ${
-                  state.filter === filter
-                    ? "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300"
-                    : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
-                }
-              `}
+              variant={state.filter === filter ? "default" : "secondary"}
+              size="sm"
+              className="flex-1"
             >
               {filter.charAt(0).toUpperCase() + filter.slice(1)}
-            </button>
+            </Button>
           ))}
         </div>
 
         {/* Chat list */}
         {filteredChats.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">☁️</div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="text-center py-16">
+            <div className="text-5xl mb-3 opacity-50">☁️</div>
+            <p className="text-sm text-muted-foreground font-medium">
               No chats yet
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1.5">
               Upload a chat.json to get started
             </p>
           </div>
         ) : (
           <div className="space-y-2">
             {filteredChats.map((chat) => (
-              <button
+              <Card
                 key={chat.id}
                 onClick={() =>
                   dispatch({ type: "SELECT_CHAT", payload: chat.id })
                 }
                 className={`
-                  w-full text-left p-3 rounded-lg transition-all
+                  cursor-pointer transition-all hover:shadow-md hover:border-primary/50
                   ${
                     state.selectedChatId === chat.id
-                      ? "bg-sky-100 dark:bg-sky-900/30 border-2 border-sky-400 dark:border-sky-600"
-                      : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-sky-300 dark:hover:border-sky-700"
+                      ? "ring-2 ring-primary bg-accent/30"
+                      : ""
                   }
                 `}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <h3
-                      className={`
-                      text-sm font-medium truncate
-                      ${
-                        state.selectedChatId === chat.id
-                          ? "text-sky-900 dark:text-sky-100"
-                          : "text-slate-900 dark:text-slate-100"
-                      }
-                    `}
-                    >
-                      {chat.title}
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      {new Date(chat.createdAt).toLocaleDateString()}
-                    </p>
+                <div className="p-3.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm font-medium truncate text-card-foreground">
+                        {chat.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        {new Date(chat.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    {chat.shared && (
+                      <Badge variant="secondary" className="shrink-0">Shared</Badge>
+                    )}
                   </div>
-                  {chat.shared && (
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300 rounded">
-                      Shared
-                    </span>
-                  )}
                 </div>
-              </button>
+              </Card>
             ))}
           </div>
         )}

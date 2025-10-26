@@ -1,6 +1,8 @@
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
 import { useApp } from "../../state/app-context";
 import type { Chat } from "../../state/app-context";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function UploadArea() {
   const { dispatch } = useApp();
@@ -96,7 +98,7 @@ export default function UploadArea() {
   };
 
   return (
-    <div className="space-y-4">
+    <Card className="overflow-hidden border-2 border-dashed">
       {/* Upload area */}
       <div
         onDragOver={handleDragOver}
@@ -104,12 +106,12 @@ export default function UploadArea() {
         onDrop={handleDrop}
         onPaste={handlePaste}
         className={`
-          relative border-2 border-dashed rounded-xl p-12 text-center
+          relative p-12 text-center
           transition-all duration-200 cursor-pointer
           ${
             isDragging
-              ? "border-sky-500 bg-sky-50 dark:bg-sky-900/20 scale-[1.02]"
-              : "border-sky-300 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-600"
+              ? "bg-primary/10 border-primary scale-[1.01]"
+              : "hover:bg-accent/30"
           }
         `}
         onClick={() => fileInputRef.current?.click()}
@@ -124,49 +126,47 @@ export default function UploadArea() {
 
         <div className="flex flex-col items-center gap-4">
           {/* Icon */}
-          <div className="text-6xl">✈️</div>
+          <div className={`transition-transform duration-200 ${isDragging ? "scale-110" : ""}`}>
+            <svg 
+              className="w-16 h-16 text-primary" 
+              fill="none" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth="2" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
 
           {/* Text */}
           <div>
-            <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
+            <h3 className="text-xl font-semibold mb-2 text-foreground">
               {isDragging ? "Drop your chat here" : "Upload Chat"}
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Drag & drop, click to browse, or paste JSON
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-500 mt-2">
+            <p className="text-xs text-muted-foreground mt-2">
               Supports VS Code Copilot chat.json files (max 5MB)
             </p>
-          </div>
-
-          {/* Button hint */}
-          <div className="flex gap-2 mt-2">
-            <span className="px-3 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 text-xs font-medium rounded-full">
-              Click to upload
-            </span>
-            <span className="px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full">
-              Cmd/Ctrl + V to paste
-            </span>
           </div>
         </div>
       </div>
 
       {/* Error message */}
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+        <div className="p-4 bg-destructive/10 border-t border-destructive/20">
           <div className="flex items-start gap-3">
-            <span className="text-2xl">⚠️</span>
+            <span className="text-xl">⚠️</span>
             <div>
-              <h4 className="text-sm font-semibold text-red-900 dark:text-red-200">
-                Upload failed
-              </h4>
-              <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                {error}
-              </p>
+              <h4 className="text-sm font-semibold text-destructive">Upload failed</h4>
+              <p className="text-sm text-muted-foreground mt-1">{error}</p>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </Card>
   );
 }

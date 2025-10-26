@@ -16,18 +16,22 @@ Lean into the "copilot" theme with clouds, sky, and aviation aesthetics.
 ### Color Palette
 
 #### Clear Skies ☀️ (Light Mode)
-- **Background**: Soft sky blue gradient (`sky-50` to `blue-50`)
-- **Cards/Surfaces**: Cloud white with subtle shadows (`white` with cloud shadows)
-- **Primary**: Aviation blue (`sky-600`, `blue-600`)
-- **Accents**: Sunset orange/amber for CTAs (`amber-500`, `orange-500`)
-- **Text**: Deep navy (`slate-900`, `gray-900`)
+- **Background**: Bright airy sky blue
+- **Cards/Surfaces**: Pure white clouds
+- **Primary**: Vibrant sky blue
+- **Accents**: Lighter shades of blue
+- **Text**: Deep navy
+- **Borders**: Subtle sky blue
 
 #### Night Flight 🌙 (Dark Mode)
-- **Background**: Deep midnight blue (`slate-950` with blue tint)
-- **Cards/Surfaces**: Darker clouds (`slate-900`, `slate-800`)
-- **Primary**: Bright sky blue (`sky-400`, `cyan-400`)
-- **Accents**: Warm golden glow (`amber-400`)
-- **Text**: Cloud white (`slate-50`, `gray-50`)
+- **Background**: Deep night darkness
+- **Cards/Surfaces**: Dark elevated surfaces
+- **Primary**: Bright blue glow (moonlight)
+- **Accents**: Subtle dark blue and grey shades
+- **Text**: Soft white
+- **Borders**: Dark blue-grey
+
+**Color Philosophy**: Only blues, greys, and whites. No oranges or yellows. Light mode feels like bright blue skies with white clouds. Dark mode has moody dark night vibes with complementary blue accents.
 
 ### Visual Elements
 - **Icons**: Airplane, cloud, compass, altitude symbols
@@ -89,6 +93,11 @@ Lean into the "copilot" theme with clouds, sky, and aviation aesthetics.
 ```
 app/
 ├── components/
+│   ├── ui/                       # shadcn/ui components
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── badge.tsx
+│   │   └── ...
 │   ├── layout/
 │   │   ├── AppLayout.tsx         # Sidebar + main content
 │   │   └── Sidebar.tsx           # Profile, chat list, filters
@@ -98,23 +107,16 @@ app/
 │   │   ├── ChatList.tsx          # list of chats
 │   │   ├── ChatFilter.tsx        # filter shared/unshared
 │   │   └── EmptyState.tsx        # "Upload your first chat" with sky illustrations
-│   ├── auth/
-│   │   └── ProfileButton.tsx     # Login/profile dropdown
-│   ├── buttons/
-│   │   └── CopyButton.tsx        # Copy HTML to clipboard
-│   ├── ui/
-│   │   ├── Button.tsx            # Reusable with sky theme variants
-│   │   ├── Card.tsx              # Cloud-styled cards
-│   │   ├── Badge.tsx             # For "shared" indicators
-│   │   └── Toast.tsx             # Success/error notifications
 │   └── common/
 │       └── LoadingSpinner.tsx    # Loading states
 ├── routes/
 │   ├── index.tsx                 # `/` - Main hub
 │   ├── chats.$id.tsx             # `/chats/:id` - Specific chat
 │   └── s.$id.tsx                 # `/s/:id` - Shared read-only
-└── state/
-    └── AppContext.tsx            # Global state (React Context + useReducer)
+├── state/
+│   └── AppContext.tsx            # Global state (React Context + useReducer)
+└── lib/
+    └── utils.ts                  # shadcn utilities
 ```
 
 ### State Management
@@ -250,6 +252,7 @@ Use **Supabase** for:
 ## 🧭 Tech Stack
 
 - **Frontend**: React + React Router v7 + TailwindCSS v4
+- **UI Components**: shadcn/ui (with custom aviation theme)
 - **State**: React Context + useReducer
 - **Auth & DB**: Supabase
 - **Validation**: Zod (Phase 2)
@@ -277,11 +280,12 @@ Use **Supabase** for:
 6. ✅ Copy HTML to clipboard
 
 ### Week 2 - Polish & Theme
-1. ✅ Apply pilot/sky theme (colors, shadows, spacing)
-2. ✅ Add animations (clouds drifting, smooth transitions)
-3. ✅ Responsive design (mobile-first)
-4. ✅ Error states and loading spinners
-5. ✅ Empty states with encouraging copy
+1. ✅ Integrate shadcn/ui component library
+2. ✅ Apply pilot/sky theme (blues, greys, whites only)
+3. ⏳ Add animations (clouds drifting, smooth transitions)
+4. ⏳ Responsive design (mobile-first)
+5. ⏳ Error states and loading spinners
+6. ⏳ Empty states with encouraging copy
 
 ## 📝 Implementation Notes
 
@@ -310,13 +314,14 @@ Use **Supabase** for:
 
 ## ✅ Why This Plan Works
 
-1. **Lightweight early** - No complex dependencies for MVP
+1. **Lightweight early** - shadcn/ui is copy-paste components (you own the code)
 2. **Built-in React features** - Context + useReducer, no Redux needed
 3. **Clean URL structure** - Only 3 routes, easy to reason about
 4. **Natural upgrade path** - MVP → Auth → Sharing flows logically
 5. **Easy to maintain** - Simple architecture, clear component boundaries
-6. **Cohesive theme** - Aviation/pilot metaphor throughout
+6. **Cohesive theme** - Aviation/pilot metaphor with blues, greys, whites
 7. **Privacy-first** - localStorage for anonymous users, no SEO for shared links
+8. **Professional polish** - shadcn/ui provides accessible, battle-tested components
 
 ---
 

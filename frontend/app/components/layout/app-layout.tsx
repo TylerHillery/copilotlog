@@ -10,14 +10,14 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
   const { state, dispatch } = useApp();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-linear-to-br from-sky-50 to-blue-50 dark:from-slate-950 dark:to-slate-900">
+    <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar - only render for logged-in users */}
       {state.user && (
         <aside
           className={`
             ${state.ui.sidebarOpen ? "translate-x-0" : "-translate-x-full"}
             fixed inset-y-0 left-0 z-50 w-80 
-            card border-r border-sky-200 dark:border-slate-800
+            bg-sidebar border-r border-sidebar-border
             transition-transform duration-300 ease-in-out
           `}
         >
@@ -28,18 +28,18 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
       {/* Main content */}
       <main className="flex-1 overflow-y-auto flex flex-col">
         {/* Header */}
-        <header className="sticky top-0 z-30">
-          <div className="flex items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-sm">
+          <div className="flex items-center justify-between px-6 py-4">
+            <div className="flex items-center gap-4">
               {/* Sidebar toggle - only show for logged-in users */}
               {state.user && (
                 <button
                   onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
-                  className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                  className="p-2 hover:bg-accent rounded-lg transition-colors text-foreground"
                   aria-label="Toggle sidebar"
                 >
                   <svg
-                    className="w-6 h-6 text-slate-700 dark:text-slate-300"
+                    className="w-5 h-5"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -53,18 +53,28 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
               )}
               
               {/* Logo/Title */}
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">✈️</span>
-                <h1 className="text-lg font-bold text-sky-900 dark:text-sky-100">
+              <div className="flex items-center gap-2.5">
+                <svg 
+                  className="w-6 h-6 text-primary" 
+                  fill="none" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth="2" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <h1 className="text-xl font-semibold text-foreground">
                   CopilotLog
                 </h1>
               </div>
             </div>
 
             {/* Auth button */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {!state.user && (
-                <button className="btn-accent text-sm flex items-center gap-2">
+                <button className="bg-secondary hover:bg-muted text-secondary-foreground px-4 py-2 rounded-lg font-medium transition-all text-sm flex items-center gap-2 border border-border hover:border-foreground/20">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fillRule="evenodd"
@@ -83,7 +93,7 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-4 py-8 lg:py-12 max-w-5xl">
+          <div className="container mx-auto px-6 py-8 lg:py-12 max-w-5xl">
             {children}
           </div>
         </div>
@@ -92,7 +102,7 @@ export default function AppLayout({ children, sidebar }: AppLayoutProps) {
       {/* Mobile overlay - only for logged-in users */}
       {state.user && state.ui.sidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 z-40"
+          className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
           onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
         />
       )}

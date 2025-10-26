@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useApp, useSelectedChat } from "../../state/app-context";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function ChatPreview() {
   const { dispatch } = useApp();
@@ -10,10 +12,10 @@ export default function ChatPreview() {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
         <div className="text-8xl mb-6">☁️</div>
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+        <h2 className="text-2xl font-bold text-foreground mb-2">
           Ready for takeoff
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 max-w-md">
+        <p className="text-muted-foreground max-w-md">
           Upload a VS Code Copilot chat to preview and copy the HTML.
           Your chats are saved locally in your browser.
         </p>
@@ -36,22 +38,21 @@ export default function ChatPreview() {
   };
 
   return (
-    <div className="space-y-4 relative">
-      {/* Preview */}
-      <div className="card p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-            Preview
-          </h3>
-            <div className="flex items-center gap-1">
-            <button
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Preview</CardTitle>
+          <div className="flex items-center gap-2">
+            <Button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              variant="secondary"
+              size="sm"
               title="Copy HTML to clipboard"
+              className="hover:bg-foreground/10"
             >
               {copied ? (
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-1"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -63,7 +64,7 @@ export default function ChatPreview() {
                 </svg>
               ) : (
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-1"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -75,14 +76,16 @@ export default function ChatPreview() {
                 </svg>
               )}
               Copy HTML
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleClear}
-              className="flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              variant="secondary"
+              size="sm"
               title="Clear preview"
+              className="hover:text-destructive hover:bg-secondary"
             >
               <svg
-                className="w-4 h-4"
+                className="w-4 h-4 mr-1"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -93,17 +96,18 @@ export default function ChatPreview() {
                 <path d="M6 18L18 6M6 6l12 12" />
               </svg>
               Clear
-            </button>
+            </Button>
           </div>
         </div>
-
-        <div className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-6 overflow-auto max-h-[600px]">
+      </CardHeader>
+      <CardContent>
+        <div className="bg-muted rounded-lg p-6 overflow-auto max-h-[600px]">
           <div
             className="prose prose-slate dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: selectedChat.html }}
           />
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
