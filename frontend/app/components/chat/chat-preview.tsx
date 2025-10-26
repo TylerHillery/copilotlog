@@ -13,7 +13,7 @@ export default function ChatPreview() {
   if (!selectedChat) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-        <div className="text-8xl mb-6">☁️</div>
+        <div className="text-8xl mb-6" aria-hidden="true">☁️</div>
         <h2 className="text-2xl font-bold text-foreground mb-2">
           Ready for takeoff
         </h2>
@@ -103,7 +103,11 @@ export default function ChatPreview() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="bg-muted rounded-lg p-6 overflow-auto max-h-[600px]">
+        <div 
+          className="bg-muted rounded-lg p-6 overflow-auto max-h-[600px]"
+          role="region"
+          aria-label="Chat preview"
+        >
           <div
             className="prose prose-slate dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: selectedChat.html }}

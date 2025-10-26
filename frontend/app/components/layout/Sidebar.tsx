@@ -14,7 +14,8 @@ export default function Sidebar() {
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <svg 
-            className="w-8 h-8 text-sidebar-primary" 
+            className="w-8 h-8 text-sidebar-primary"
+            aria-hidden="true"
             fill="none" 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -41,30 +42,36 @@ export default function Sidebar() {
           <h2 className="text-xs font-semibold text-sidebar-foreground uppercase tracking-wider">
             Your Chats
           </h2>
-          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+          <span 
+            className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full"
+            aria-label={`${filteredChats.length} chats`}
+          >
             {filteredChats.length}
           </span>
         </div>
 
-        {/* Filter buttons */}
-        <div className="flex gap-2 mb-4">
-          {(["all", "shared", "unshared"] as const).map((filter) => (
-            <Button
-              key={filter}
-              onClick={() => dispatch({ type: "SET_FILTER", payload: filter })}
-              variant={state.filter === filter ? "default" : "secondary"}
-              size="sm"
-              className="flex-1"
-            >
-              {filter.charAt(0).toUpperCase() + filter.slice(1)}
-            </Button>
-          ))}
-        </div>
+        {/* Filter buttons - only show for logged in users with shared chats feature */}
+        {state.user && (
+          <div className="flex gap-2 mb-4" role="group" aria-label="Filter chats">
+            {(["all", "shared", "unshared"] as const).map((filter) => (
+              <Button
+                key={filter}
+                onClick={() => dispatch({ type: "SET_FILTER", payload: filter })}
+                variant={state.filter === filter ? "default" : "secondary"}
+                size="sm"
+                className="flex-1"
+                aria-pressed={state.filter === filter}
+              >
+                {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              </Button>
+            ))}
+          </div>
+        )}
 
         {/* Chat list */}
         {filteredChats.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-5xl mb-3 opacity-50">☁️</div>
+          <div className="text-center py-16" role="status" aria-live="polite">
+            <div className="text-5xl mb-3 opacity-50" aria-hidden="true">☁️</div>
             <p className="text-sm text-muted-foreground font-medium">
               No chats yet
             </p>
@@ -73,40 +80,55 @@ export default function Sidebar() {
             </p>
           </div>
         ) : (
-          <div className="space-y-2">
-            {filteredChats.map((chat) => (
-              <Card
-                key={chat.id}
-                onClick={() =>
-                  dispatch({ type: "SELECT_CHAT", payload: chat.id })
-                }
-                className={`
-                  cursor-pointer transition-all hover:shadow-md hover:border-primary/50
-                  ${
-                    state.selectedChatId === chat.id
-                      ? "ring-2 ring-primary bg-accent/30"
-                      : ""
-                  }
-                `}
-              >
-                <div className="p-3.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-medium truncate text-card-foreground">
-                        {chat.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mt-1.5">
-                        {new Date(chat.createdAt).toLocaleDateString()}
-                      </p>
+          <nav aria-label="Chat list">
+            <ul className="space-y-2" role="list">
+              {filteredChats.map((chat) => (
+                <li key={chat.id}>
+                  <Card
+                    role="button"
+                    tabIndex={0}
+                    onClick={() =>
+                      dispatch({ type: "SELECT_CHAT", payload: chat.id })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        dispatch({ type: "SELECT_CHAT", payload: chat.id });
+                      }
+                    }}
+                    aria-current={state.selectedChatId === chat.id ? "page" : undefined}
+                    className={`
+                      cursor-pointer transition-all hover:shadow-md hover:border-primary/50
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                      ${
+                        state.selectedChatId === chat.id
+                          ? "ring-2 ring-primary bg-accent/30"
+                          : ""
+                      }
+                    `}
+                  >
+                    <div className="p-3.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm font-medium truncate text-card-foreground">
+                            {chat.title}
+                          </h3>
+                          <p className="text-xs text-muted-foreground mt-1.5">
+                            {new Date(chat.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                        {chat.shared && (
+                          <Badge variant="secondary" className="shrink-0" aria-label="Shared publicly">
+                            Shared
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                    {chat.shared && (
-                      <Badge variant="secondary" className="shrink-0">Shared</Badge>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          </nav>
         )}
       </div>
     </div>

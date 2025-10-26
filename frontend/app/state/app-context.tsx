@@ -1,6 +1,6 @@
-import React, {
+import type { Dispatch, ReactNode } from "react";
+import {
   createContext,
-  type ReactNode,
   useContext,
   useEffect,
   useReducer,
@@ -133,7 +133,7 @@ function appReducer(state: AppState, action: Action): AppState {
 const AppContext = createContext<
   | {
       state: AppState;
-      dispatch: React.Dispatch<Action>;
+      dispatch: Dispatch<Action>;
     }
   | undefined
 >(undefined);

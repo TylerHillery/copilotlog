@@ -1,4 +1,5 @@
-import { type ChangeEvent,type DragEvent, useRef, useState } from "react";
+import type { ChangeEvent, DragEvent, KeyboardEvent } from "react";
+import { useRef, useState } from "react";
 
 import { Card } from "@/components/ui/card";
 
@@ -100,17 +101,29 @@ export default function UploadArea() {
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <Card className="overflow-hidden border-2 border-dashed">
       {/* Upload area */}
       <div
+        role="button"
+        tabIndex={0}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onPaste={handlePaste}
+        onKeyDown={handleKeyDown}
+        aria-label="Upload chat file. Drag and drop, click to browse, or paste JSON"
         className={`
           relative p-12 text-center
           transition-all duration-200 cursor-pointer
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
           ${
             isDragging
               ? "bg-primary/10 border-primary scale-[1.01]"
@@ -125,13 +138,15 @@ export default function UploadArea() {
           accept=".json,application/json"
           onChange={handleFileInput}
           className="hidden"
+          aria-hidden="true"
         />
 
         <div className="flex flex-col items-center gap-4">
           {/* Icon */}
           <div className={`transition-transform duration-200 ${isDragging ? "scale-110" : ""}`}>
             <svg 
-              className="w-16 h-16 text-primary" 
+              className="w-16 h-16 text-primary"
+              aria-hidden="true"
               fill="none" 
               strokeLinecap="round" 
               strokeLinejoin="round" 
@@ -160,9 +175,13 @@ export default function UploadArea() {
 
       {/* Error message */}
       {error && (
-        <div className="p-4 bg-destructive/10 border-t border-destructive/20">
+        <div 
+          className="p-4 bg-destructive/10 border-t border-destructive/20"
+          role="alert"
+          aria-live="assertive"
+        >
           <div className="flex items-start gap-3">
-            <span className="text-xl">⚠️</span>
+            <span className="text-xl" aria-hidden="true">⚠️</span>
             <div>
               <h4 className="text-sm font-semibold text-destructive">Upload failed</h4>
               <p className="text-sm text-muted-foreground mt-1">{error}</p>
