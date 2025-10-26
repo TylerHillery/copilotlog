@@ -24,19 +24,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Inline script to prevent FOUC (Flash of Unstyled Content)
+              // This MUST run before React hydrates to avoid theme flashing
               (function() {
                 try {
-                  const theme = localStorage.getItem('copilotlog_theme') || 'light';
-                  console.log('Initial theme from localStorage:', theme);
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                  // Ensure theme is stored
-                  if (!localStorage.getItem('copilotlog_theme')) {
-                    localStorage.setItem('copilotlog_theme', 'light');
-                  }
+                  const theme = localStorage.getItem('copilotlog_theme');
+                  const isDark = theme === 'dark' || 
+                    (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  
+                  document.documentElement.classList.toggle('dark', isDark);
                 } catch (e) {
                   console.error('Theme initialization error:', e);
                 }

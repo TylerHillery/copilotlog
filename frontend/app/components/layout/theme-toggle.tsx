@@ -6,22 +6,19 @@ export default function ThemeToggle() {
   const toggleTheme = () => {
     // Simple toggle: light <-> dark
     const newTheme = state.theme === "dark" ? "light" : "dark";
-    console.log('Toggling theme from', state.theme, 'to', newTheme);
     dispatch({ type: "SET_THEME", payload: newTheme });
   };
 
   const isDark = state.theme === "dark";
-  
-  console.log('Current theme:', state.theme, 'isDark:', isDark);
 
   return (
     <button
       onClick={toggleTheme}
       className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-      aria-label="Toggle theme"
+      aria-label={`Toggle theme. Current: ${state.theme} mode`}
     >
       <div className="relative w-6 h-6">
-        {/* Sun icon */}
+        {/* Sun icon - Light mode */}
         <svg
           className={`absolute inset-0 w-6 h-6 text-slate-700 dark:text-slate-300 transition-all duration-300 ${
             isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
@@ -44,7 +41,7 @@ export default function ThemeToggle() {
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
 
-        {/* Moon icon */}
+        {/* Moon icon - Dark mode */}
         <svg
           className={`absolute inset-0 w-6 h-6 text-slate-700 dark:text-slate-300 transition-all duration-300 ${
             isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
@@ -62,4 +59,3 @@ export default function ThemeToggle() {
     </button>
   );
 }
-

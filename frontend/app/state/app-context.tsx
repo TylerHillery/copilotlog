@@ -149,18 +149,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const selectedId = localStorage.getItem(STORAGE_KEYS.SELECTED);
       const version = localStorage.getItem(STORAGE_KEYS.VERSION);
       const storedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
-      const theme: AppState["theme"] = (storedTheme === "dark" || storedTheme === "light") ? storedTheme : "light";
+      
+      // Use stored theme if exists, otherwise detect from system preference
+      const theme: AppState["theme"] =
+        storedTheme === "dark" || storedTheme === "light"
+          ? storedTheme
+          : window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
 
-      console.log('Initializing app with theme:', theme, '(stored theme was:', storedTheme, ')');
-
-      // Apply theme to document immediately
-      const root = document.documentElement;
-      if (theme === "dark") {
-        root.classList.add("dark");
-      } else {
-        root.classList.remove("dark");
-      }
-      console.log('Initial HTML classList:', root.classList.toString());
+      // Theme is already applied by inline script in root.tsx
 
       if (stored && version === String(STORAGE_VERSION)) {
         const chats = JSON.parse(stored) as Chat[];
@@ -221,19 +219,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
 
     try {
-      console.log('Theme useEffect triggered, setting theme to:', state.theme);
       localStorage.setItem(STORAGE_KEYS.THEME, state.theme);
-
+      
       // Apply theme to document
       const root = document.documentElement;
-      if (state.theme === "dark") {
-        console.log('Adding dark class to html element');
-        root.classList.add("dark");
-      } else {
-        console.log('Removing dark class from html element');
-        root.classList.remove("dark");
-      }
-      console.log('HTML classList:', root.classList.toString());
+      root.classList.toggle("dark", state.theme === "dark");
     } catch (error) {
       console.error("Failed to save theme:", error);
     }
